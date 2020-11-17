@@ -211,7 +211,8 @@ class Graph:
                 new_path = current_path + [neighbor]
                 stack.push(new_path)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[], visited=set()):
+        # def dfs_recursive(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -219,22 +220,41 @@ class Graph:
 
         This should be done using recursion.
         """
-        stack = Stack()
-        stack.push([starting_vertex])
-        visited = set()
+        # stack = Stack()
+        # stack.push([starting_vertex])
+        # visited = set()
 
-        while stack.size() > 0:
-            current_path = stack.pop()
-            if current_path[-1] not in visited:
-                visited.add(current_path[-1])
+        # while stack.size() > 0:
+        #     current_path = stack.pop()
+        #     if current_path[-1] not in visited:
+        #         visited.add(current_path[-1])
 
-            if current_path[-1] == destination_vertex:
-                return current_path
+        #     if current_path[-1] == destination_vertex:
+        #         return current_path
 
-            neighbors = self.get_neighbors(current_path[-1])
-            for neighbor in neighbors:
-                new_path = [*current_path, neighbor]
-                stack.push(new_path)
+        #     neighbors = self.get_neighbors(current_path[-1])
+        #     for neighbor in neighbors:
+        #         new_path = [*current_path, neighbor]
+        #         stack.push(new_path)
+
+        if len(path) == 0:
+            path.append(starting_vertex)
+
+        if starting_vertex == destination_vertex:
+            return path
+
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+
+            neighbors = self.get_neighbors(starting_vertex)
+
+            for ii in neighbors:
+                final_path = path + [ii]
+
+            # only return if we found the destination_vertex
+                result = self.dfs_recursive(ii, destination_vertex, final_path, visited)
+                if result is not None:
+                    return result
 
 
 if __name__ == '__main__':

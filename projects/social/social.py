@@ -1,12 +1,16 @@
+import random
+
+
 class User:
     def __init__(self, name):
         self.name = name
 
+
 class SocialGraph:
     def __init__(self):
-        self.last_id = 0
-        self.users = {}
-        self.friendships = {}
+        self.last_id = 0  # current number of users
+        self.users = {}  # your users with their attributes
+        self.friendships = {}  # adjacency list (smezhnost)
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -28,6 +32,9 @@ class SocialGraph:
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
+    def fisher_yates_shuffle(self, l):
+        pass
+
     def populate_graph(self, num_users, avg_friendships):
         """
         Takes a number of users and an average number of friendships
@@ -42,11 +49,17 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for user in range(num_users):
+            self.add_user(user)
 
         # Create friendships
+        # if 1 
+        total_friendships = avg_friendships * num_users
+
+
+        friendship_combos = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
 
     def get_all_social_paths(self, user_id):
         """

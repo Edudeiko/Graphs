@@ -10,7 +10,7 @@ Your client is also interested in how the performance will scale as more users j
 
 It will be easier to build your extended social network if you have users to test it with. `populate_graph()` takes in a number of users to create and the average number of friends each user should have and creates them.
 
-```
+```python
 >>> sg = SocialGraph()
 >>> sg.populate_graph(10, 2)  # Creates 10 users with an average of 2 friends each
 >>> print(sg.friendships)
@@ -30,7 +30,7 @@ Note that in the above example, the average number of friendships is exactly 2 b
 
 Now that you have a graph full of users and friendships, you can crawl through their social graphs. `get_all_social_paths()` takes a userID and returns a dictionary containing every user in that user's extended network along with the shortest friendship path between each.
 
-```
+```python
 >>> sg = SocialGraph()
 >>> sg.populate_graph(10, 2)
 >>> print(sg.friendships)
@@ -39,6 +39,7 @@ Now that you have a graph full of users and friendships, you can crawl through t
 >>> print(connections)
 {1: [1], 8: [1, 8], 10: [1, 10], 5: [1, 5], 2: [1, 10, 2], 6: [1, 10, 6], 7: [1, 10, 2, 7]}
 ```
+
 Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social network.
 
 * Hint 1: What kind of graph search guarantees you a shortest path?
@@ -50,11 +51,8 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-
-
 ## 4. Stretch Goal
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
-
