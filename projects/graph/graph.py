@@ -3,6 +3,17 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+'''
+BFS/DFS vs BFT/BFT
+When is DFS better?
+- might find the longest path
+- if the node you're looking for is a leaf
+- can also be implemented recusively, or randomly
+
+When is BFS better?
+- finds shortest path
+'''
+
 
 class Graph:
     """

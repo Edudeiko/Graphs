@@ -1,3 +1,17 @@
+'''
+Describe the problem in graphs terms
+- Ehat are our nodes?
+- What aer our edges? aka when are two nodes connected?
+
+-- Is this a directed or undirected graph? cyclic or acyclic?
+
+DAG: directed acycling graph, from parent to child or from child to parent
+
+2. Build our graph, or write getNeighbor
+
+3. Choose your fighter, which algorithm to use?
+- any traversal, depth or breadth
+'''
 
 
 def earliest_ancestor(ancestors, starting_node):
