@@ -41,7 +41,6 @@ them and as you leave them behind as "already searched".
 Commonly, unvisited verts are white, verts whose neighbors are being
 explored are gray, and verts with no unexplored neighbors are black.
 
-
 ## Recursion
 
 Since we want to pursue leads in the graph as far as we can, and then
@@ -80,7 +79,6 @@ DFS_visit(v):
     v.color = black
 
 ```
-
 
 ## Exercises
 

@@ -53,6 +53,28 @@ def earliest_ancestor(ancestors, starting_node):
     return parents[-1]
 
 
+def earliest_ancestor_recursive(ancestors, starting_node):
+    # loop through parent&child pair in the ancestor tree
+    for parent, child in ancestors:
+
+        # if the starting_node is the current child
+        if child == starting_node:
+
+            # find the earliest ancestor of it's parent
+            earliest_ancestor = earliest_ancestor_recursive(ancestors, parent)
+
+            # if the parent has no ancestors
+            if earliest_ancestor == -1:
+
+                # return the parent
+                return parent
+
+            # or return earliest_ancestor
+            return earliest_ancestor
+
+    # return -1 if child has no ancestors
+    return -1
+
 # write a getNeighbors function
 # iterate over the pairs of nodes
 # find those that are direct parents of this node
