@@ -1,5 +1,6 @@
 import random
 from collections import deque
+from queue import Queue
 
 
 class User:
@@ -62,6 +63,20 @@ class SocialGraph:
         # if 1 is a friend of 2, and 2 is a friend of 1, count as 2 friendships
         total_friendships = avg_friendships * num_users
 
+        #############################################
+        frienships_made = 0
+
+        while frienships_made < total_friendships:
+            # choose two random user ids
+            first_user = random.randint(1, num_users)
+            second_user = random.randint(1, num_users)
+            # try to make the friendship
+            new_friendship = self.add_friendship(first_user, second_user)
+
+            if new_friendship:
+                frienships_made += 2
+
+        #############################################
         # create a list with all possible friendship combinations,
         # friendship_combos = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
         friendship_combos = []
@@ -133,3 +148,50 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+
+
+# def get_all_social_paths(self, user_id):
+#     '''
+#     "wait wait don't tell me" --> "ah ha!"
+
+#     Choose your fighter: BFS
+#     '''
+#     q = Queue()
+#     # key: user_id, value: path
+#     visited = {}  # Note that this is a dictionary, not a set
+
+#     q.enqueue([user_id])
+
+#     while q.size() > 0:
+#         # get the next person in line
+#         current_path = q.dequeue()
+#         current_person = current_path[-1]
+#         # check if we've visited them yet
+#         if current_person not in visited:
+#             # if not, mark as visited
+#             # key: user_id, value: path
+#             visited[current_person] = current_path
+#             # get their friends (visited their edges)
+#             friends = self.friendships(current_person)
+
+#             for friend in friends:
+#                 friend_path = list(current_path)
+
+#                 friend_path.append(friend)
+
+#                 q.enqueue(friend_path)
+
+#     return visited
+
+# percentage of other users in extended social network
+    # number of people we visited / total number of people
+    print(len(connections) / num_users)
+
+# avg degree of separation --> average steps we took to visit someone
+# just average the length of each path
+    total_path_length = 0
+    for key, value in connections.items():
+        total_path_length += len(value)
+
+    average_path_length = total_path_length / len(connections)
+    print(average_path_length)
