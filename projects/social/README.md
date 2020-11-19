@@ -30,7 +30,7 @@ Note that in the above example, the average number of friendships is exactly 2 b
 
 Now that you have a graph full of users and friendships, you can crawl through their social graphs. `get_all_social_paths()` takes a userID and returns a dictionary containing every user in that user's extended network along with the shortest friendship path between each.
 
-```python
+```py
 >>> sg = SocialGraph()
 >>> sg.populate_graph(10, 2)
 >>> print(sg.friendships)
