@@ -80,6 +80,8 @@ def earliest_ancestor_recursive(ancestors, starting_node):
 # find those that are direct parents of this node
 
 # run a standard DFT, but recurse with distance to track the earliest ancestor found
+
+
 '''
 def dft(ancestors, node, distance)
 ​
