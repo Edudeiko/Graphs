@@ -114,96 +114,96 @@ class SocialGraph:
     def get_friends(self, current_friend):
         return self.friendships[current_friend]
 
-    # def get_all_social_paths(self, user_id):
-    #     """
-    #     BFS approach -- guarantees a shortest path
-
-    #     Takes a user's user_id as an argument
-
-    #     Returns a dictionary containing every user in that user's
-    #     extended network with the shortest friendship path between them.
-
-    #     The key is the friend's ID and the value is the path.
-    #     """
-    #     # Instead of using a `set` to mark users as visited, you could use a
-    #     # `dictionary`. Similar to sets, checking if something is in a
-    #     # dictionary runs in O(1) time. If the visited user is the key,
-    #     # what would the value be?
-
-    #     # track the network
-    #     visited = {}  # Note that this is a dictionary, not a set
-
-    #     # create a starting point
-    #     current_path = [user_id]
-
-    #     q = deque([current_path])
-
-    #     while q:
-    #         # return and remove the leftmost item.
-    #         # if no elements are present, raise an IndexError
-    #         current_path = q.popleft()
-
-    #         # last friend from q
-    #         current_person = current_path[-1]
-
-    #         # check if it is not in visited
-    #         if current_person not in visited:
-    #             # add last_friend form queue and current path to visited
-    #             visited[current_person] = current_path
-
-    #             # itirate and add other friends to visited
-    #             for friend in self.friendships[current_person]:
-
-    #                 # add friend to copy_path, add to the queue
-    #                 copy_path = current_path + [friend]
-    #                 q.append(copy_path)
-
-    #     return visited
-
     def get_all_social_paths(self, user_id):
-        '''
+        """
+        BFS approach -- guarantees a shortest path
+
         Takes a user's user_id as an argument
-​
+
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
-​
+
         The key is the friend's ID and the value is the path.
-​
-        "wait wait don't tell me" --> "ah ha!"
+        """
+        # Instead of using a `set` to mark users as visited, you could use a
+        # `dictionary`. Similar to sets, checking if something is in a
+        # dictionary runs in O(1) time. If the visited user is the key,
+        # what would the value be?
 
-        Choose your fighter: BFT
-        '''
-        q = Queue()
-        # key: user_id, value: path
-        visited = {}
+        # track the network
+        visited = {}  # Note that this is a dictionary, not a set
 
-        q.enqueue([user_id])
+        # create a starting point
+        current_path = [user_id]
 
-        while q.size() > 0:
-            # get the next person in line
-            current_path = q.dequeue()
+        q = deque([current_path])
+
+        while q:
+            # return and remove the leftmost item.
+            # if no elements are present, raise an IndexError
+            current_path = q.popleft()  # popleft has a time complexity of O(1)
+
+            # last friend from q
             current_person = current_path[-1]
 
-            # check if we've visited them yet
+            # check if it is not in visited
             if current_person not in visited:
-                # if not, mark as visited
-                # key: user_id, value: path
+                # add last_friend form queue and current path to visited
                 visited[current_person] = current_path
-                # get their friends (visited their edges)
 
-                # friends = self.get_friends(current_person)
-                friends = self.friendships[current_person]
+                # itirate and add other friends to visited
+                for friend in self.friendships[current_person]:
 
-                # enqueue them
-                for friend in friends:
-                    friend_path = list(current_path)
-                    # friend_path = [*current_path]
-
-                    friend_path.append(friend)
-
-                    q.enqueue(friend_path)
+                    # add friend to copy_path, add to the queue
+                    copy_path = current_path + [friend]
+                    q.append(copy_path)
 
         return visited
+
+#     def get_all_social_paths(self, user_id):
+#         '''
+#         Takes a user's user_id as an argument
+# ​
+#         Returns a dictionary containing every user in that user's
+#         extended network with the shortest friendship path between them.
+# ​
+#         The key is the friend's ID and the value is the path.
+# ​
+#         "wait wait don't tell me" --> "ah ha!"
+
+#         Choose your fighter: BFT
+#         '''
+#         q = Queue()
+#         # key: user_id, value: path
+#         visited = {}
+
+#         q.enqueue([user_id])
+
+#         while q.size() > 0:
+#             # get the next person in line
+#             current_path = q.dequeue()
+#             current_person = current_path[-1]
+
+#             # check if we've visited them yet
+#             if current_person not in visited:
+#                 # if not, mark as visited
+#                 # key: user_id, value: path
+#                 visited[current_person] = current_path
+#                 # get their friends (visited their edges)
+
+#                 # friends = self.get_friends(current_person)
+#                 friends = self.friendships[current_person]
+
+#                 # enqueue them
+#                 for friend in friends:
+#                     friend_path = list(current_path)
+#                     # friend_path = [*current_path]
+
+#                     friend_path.append(friend)
+
+#                     q.enqueue(friend_path)
+
+#         return visited
 
 
 if __name__ == '__main__':

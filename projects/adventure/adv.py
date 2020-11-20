@@ -17,7 +17,7 @@ map_file = "maps/test_line.txt"
 # map_file = "maps/main_maze.txt"  # BFT find shortest path
 
 # Loads the map into a dictionary
-room_graph=literal_eval(open(map_file, "r").read())
+room_graph = literal_eval(open(map_file, "r").read())
 world.load_graph(room_graph)
 
 # Print an ASCII map
