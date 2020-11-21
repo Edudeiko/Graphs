@@ -104,12 +104,15 @@ while len(graph) < 500:
             curr = moves.pop()
             direction = vice_versa[curr]
             traversal_path.append(direction)
-            print('go back to', direction)
+
+            for k, v in graph[current_room].items():
+                room_back = v
+            print(f'go back {direction}, to room {room_back}')
             player.travel(direction)
 
             current_room = player.current_room.id
             print('player back in room:', current_room)
-            print(graph[current_room])
+            print(f'left to explore? {graph[current_room]}')
             print(f'counted moves: {moves}')
 
             if '?' in graph[current_room].values() or len(graph) == 500:
