@@ -79,7 +79,7 @@ while len(graph) < 500:
 
     # current room
     current_room = player.current_room.id
-    print(f'you are in room: {current_room}')
+    print(f'player in room: {current_room}')
 
     # updating graph
     graph[prev_room][direction] = player.current_room.id
@@ -104,16 +104,16 @@ while len(graph) < 500:
             curr = moves.pop()
             direction = vice_versa[curr]
             traversal_path.append(direction)
-            print('move', direction)
+            print('go back to', direction)
             player.travel(direction)
 
             current_room = player.current_room.id
-            print(current_room, 'backtrack')
+            print('player back in room:', current_room)
             print(graph[current_room])
-            print(f'moves: {moves}')
+            print(f'counted moves: {moves}')
 
             if '?' in graph[current_room].values() or len(graph) == 500:
-                print('stop_backtrack')
+                print('stop counting')
                 break
 
 
