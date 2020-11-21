@@ -4,6 +4,7 @@ from world import World
 
 import random
 from ast import literal_eval
+import time
 
 # Load world
 world = World()
@@ -11,10 +12,10 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
-# map_file = "maps/test_loop.txt"
-# map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"  # BFT find shortest path
+map_file = "maps/test_cross.txt"
+map_file = "maps/test_loop.txt"
+map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"  # BFT find shortest path
 
 # Loads the map into a dictionary
 room_graph = literal_eval(open(map_file, "r").read())
@@ -26,9 +27,9 @@ world.print_rooms()
 
 player = Player(world.starting_room)
 
+start = time.time()
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-# n,n,s,s,s,s,n,n,e,e,w,w,w,w
 traversal_path = []
 moves = []
 visited = set()
@@ -39,8 +40,8 @@ graph = {
 
 vice_versa = {
     'n': 's',
-    'e': 'w',
     's': 'n',
+    'e': 'w',
     'w': 'e'
 }
 
@@ -60,7 +61,7 @@ while len(graph) < 500:
         while True:
             direction = exits[random.randint(0, len(exits) - 1)]
 
-            # if not direction not in vice_versa and not visited
+            # if direction not in vice_versa and not visited
             if direction != vice_versa[traversal_path[-1]]:
                 break
 
@@ -73,12 +74,14 @@ while len(graph) < 500:
     visited.add(player.current_room.id)
 
     # Player moves
-    print(f'move: {direction}')
+    print(f'player goes to: {direction}')
     player.travel(direction)
 
     # current room
     current_room = player.current_room.id
+    print(f'you are in room: {current_room}')
 
+    # updating graph
     graph[prev_room][direction] = player.current_room.id
     # check if room has been visited
     if current_room not in visited:
@@ -92,15 +95,26 @@ while len(graph) < 500:
             graph[current_room][ii] = '?'
 
     graph[current_room][vice_versa[direction]] = prev_room
-    print(f'room: {current_room}')
-    print(graph[current_room])
+    print('explore further or go back?', graph[current_room])
 
+    # if the only exit is the way you came from
+    if len(player.current_room.get_exits()) == 1 and current_room != 0:
+        visited.add(player.current_room.id)
+        while True:
+            curr = moves.pop()
+            direction = vice_versa[curr]
+            traversal_path.append(direction)
+            print('move', direction)
+            player.travel(direction)
 
+            current_room = player.current_room.id
+            print(current_room, 'backtrack')
+            print(graph[current_room])
+            print(f'moves: {moves}')
 
-
-
-
-
+            if '?' in graph[current_room].values() or len(graph) == 500:
+                print('stop_backtrack')
+                break
 
 
 # TRAVERSAL TEST
@@ -118,28 +132,36 @@ else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
+end = time.time()
 
+print(f'time to run: {end - start:.3f}')
 
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
 
 
 ################
 # {0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}],
 # 1: [(3, 6), {'s': 0, 'n': 2}],
-# 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}]}  
+# 2: [(3, 7), {'s': 1}],
+# 3: [(4, 5), {'w': 0, 'e': 4}],
+# 4: [(5, 5), {'w': 3}],
+# 5: [(3, 4), {'n': 0, 's': 6}],
+# 6: [(3, 3), {'n': 5}],
+# 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}]}
 # what does the first elements of the array mean? (3, 5)
-# -- This is a coordinate for the room used when building the graph, which functions as an ID
+# -- This is a coordinate for the room used when building the graph,
+# which functions as an ID
 # -- It is entirely useless to you and you can ignore it
 
 # Dijkstra's Algorithm
@@ -165,6 +187,7 @@ while True:
 #   if value == '?':
 #       choices.append(key)
 # random.choice(choices)
-# # maybe list comprehension?? Will this comprehension work? idk I haven't tested it
+# # maybe list comprehension?? Will this comprehension work? idk I haven't
+# tested it
 # choices = [value for key, value in my_graph.items() if value == '?']
 ###################
